@@ -1,0 +1,13 @@
+.paquetes{
+    width: 500px;
+    margin-top: 10px;
+    border: solid 1px black;
+}
+.box{
+    width: 200px;
+    margin-bottom: 10px;
+    border: solid 1px black;
+    transition: height 25;
+
+}
+.box:hover { background-color: beige;}
