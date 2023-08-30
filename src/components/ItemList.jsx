@@ -8,14 +8,13 @@ const ItemList = ({paquetes}) => {
   return (
 <Item
 key={p.id}
+id={p.id}
 nombre={p.nombre}
 detalle={p.detalle}
 stock={p.stock}
 />
-  )
-   })
-}
-</>
+)})}
+    </> 
   )
 }
 

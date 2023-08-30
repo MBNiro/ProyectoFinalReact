@@ -17,27 +17,27 @@ const Navbar = () => {
       </Box>
   <Spacer />
   <Menu>
-   <MenuButton as={Button} rightIcon={<ChevronDownIcon />} className='paquetes'>
+   <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
     Paquetes
    </MenuButton>
    <MenuList>
     <MenuItem>
-    <Link to= {"/category/${'cat1'}"}>
+    <Link to= {`/category/${'cat1'}`}>
     Patagonia
     </Link>
     </MenuItem>
     <MenuItem>
-    <Link to= {"/category/${'cat2'}"}> 
+    <Link to= {`/category/${'cat2'}`}> 
     Costa Argentina
     </Link>
     </MenuItem>
     <MenuItem>
-    <Link to= {"/category/${'cat3'}"}>
+    <Link to= {`/category/${'cat3'}`}>
     Norte Argentino
     </Link>
     </MenuItem>
     <MenuItem>
-    <Link to= {"/category/${'cat4'}"}>
+    <Link to= {`/category/${'cat4'}`}>
     Buenos Aires
     </Link>
     </MenuItem>
@@ -48,7 +48,6 @@ const Navbar = () => {
 <Link to={"/Cart"}>
 <CartWidget/>
     </Link>
-
 </Box>
     </Flex>
   )
