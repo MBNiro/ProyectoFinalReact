@@ -1,16 +1,25 @@
-import { Flex, Box } from '@chakra-ui/react'
-import React from 'react'
-import cart from '../assets/shopping-cart.png'
+import { useContext, useEffect, useState } from "react"
+import { CartContext } from "../context/ShoppingCartContext"
+import { Flex, Box } from "@chakra-ui/react"
+import carrito from "../assets/shopping-cart.png"
 
 const CartWidget = () => {
-  return (
-    <Flex>
-        <Box>
-        <img src={cart} alt="imagen carrito" width='50px' height='50px'/>
-        </Box>
-        
+  const { cart } = useContext(CartContext)
 
+  const [cartCount, setCartCount] = useState(0)
+
+  useEffect(() => {
+    setCartCount(cart.reduce((acc, item) => acc + item.quantity, 0))
+  })
+
+  return (
+    <>
+    <Flex className="carrito">
+        <Box>
+        <img src={carrito} alt="" className="carrito" />
+        </Box>
     </Flex>
+    </>
   )
 }
 

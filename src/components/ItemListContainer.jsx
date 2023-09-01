@@ -1,41 +1,47 @@
-import React from 'react'
-import ItemList from './ItemList'
-import { Flex } from '@chakra-ui/react'
-import { useParams } from 'react-router-dom'
+import { useState, useEffect } from "react"
+import { useParams } from "react-router-dom"
+import ItemList from "./ItemList"
+import Loading from "./Loading"
+import { collection, getDocs, getFirestore } from "firebase/firestore"
 
 const ItemListContainer = () => {
-  const {category} = useParams ()
-  const paquetes = [
-  {id:1, nombre: "Patagonia", detalle:"Bariloche, El Calafate, Perito Moreno, Usuhaia", stock:10, category:"cat1"},
-  {id:2, nombre: "Costa Argentina", detalle:"Mar del plata, Carilo, Miramar", stock:9,category:"cat2"},
-  {id:3, nombre: "Norte Argentino", detalle:"Salta, Jujuy, Tilcara, Las Salinas, Hornocal", stock:6,category:"cat3"},
-  {id:4, nombre: "Buenos Aires", detalle:"Recorrido por la gran ciudad, incluyendo los lugares mas atractivos", stock:12,category:"cat4"}
-] 
+  const { category } = useParams()
 
-const getPaquetes = new Promise ((resolve, reject) => {
-  if (paquetes.length > 0) {
-    setTimeout (() => {
-      resolve (paquetes)}, 2000
+  const [loading, setloading] = useState(true)
+
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    const db = getFirestore();
+    const itemsCollection = collection(db, "PAQUETES TURISTICOS")
+    getDocs(itemsCollection).then((snapshot) => {
+      const docs = snapshot.docs.map((doc) => ({
+        ...doc.data(),
+        id: doc.id,
+      }))
+      setProducts(docs)
+    })
+    setloading(false)
+  }, [])
+
+  const catFilter = products.filter(
+    (products) => products.category === category
+  )
+
+  if (loading)
+    return (
+      <div className="loadingContainer">
+        <Loading />
+      </div>
     )
-  }
-  else { reject (new Error("Agotado"))
-  }
- } )
-
- getPaquetes
- .then ((res) => {
-  console.log(res)
- })
- .catch ((error) => {
-  console.log(error)
- })
-
- const filteredPaquetes = paquetes.filter ((paquete) => paquete.category === category)
-
   return (
-    <Flex>
-      <ItemList paquetes={filteredPaquetes} />
-    </Flex>
+    <>
+      {category ? (
+        <ItemList products={catFilter} />
+      ) : (
+        <ItemList products={products} />
+      )}
+    </>
   )
 }
 

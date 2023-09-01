@@ -1,34 +1,34 @@
-import React from 'react'
-import ItemDetail from './ItemDetail'
+import { useEffect, useState } from "react"
+import ItemDetail from "./ItemDetail"
+import Loading from "./Loading"
+import { getFirestore, getDocs, collection } from "firebase/firestore"
 
 const ItemDetailContainer = () => {
-  const paquetes = [
-    {id:1, nombre: "Patagonia", detalle:"Bariloche, El Calafate, Perito Moreno, Usuhaia", stock:10, category:"cat1"},
-    {id:2, nombre: "Costa Argentina", detalle:"Mar del plata, Carilo, Miramar", stock:9,category:"cat2"},
-    {id:3, nombre: "Norte Argentino", detalle:"Salta, Jujuy, Tilcara, Las Salinas, Hornocal", stock:6,category:"cat3"},
-    {id:4, nombre: "Buenos Aires", detalle:"Recorrido por la gran ciudad, incluyendo los lugares mas atractivos", stock:12,category:"cat4"}
-  ] 
-  const getPaquetes = new Promise ((resolve, reject) => {
-    if (paquetes.length > 0) {
-      setTimeout (() => {
-        resolve (paquetes)}, 2000
-      )
-    }
-    else { reject (new Error("Agotado"))
-    }
-   } )
-  
-   getPaquetes
-   .then ((res) => {
-    console.log(res)
-   })
-   .catch ((error) => {
-    console.log(error)
-   })
+  const [loading, setloading] = useState(true)
 
+  const [products, setProducts] = useState([])
+
+  useEffect(() => {
+    const db = getFirestore()
+    const itemsCollection = collection(db, "PAQUETES TURISTICOS")
+    getDocs(itemsCollection).then((snapshot) => {
+      const docs = snapshot.docs.map((doc) => ({ ...doc.data(), id: doc.id }))
+      setProducts(docs)
+    });
+    setloading(false)
+  }, [])
+
+  if (loading)
+    return (
+      <div>
+        <Loading />
+      </div>
+    )
   return (
     <>
-    <ItemDetail paquetes={paquetes}/>
+      <div className="itemList">
+        <ItemDetail products={products} />
+      </div>
     </>
   )
 }

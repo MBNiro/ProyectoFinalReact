@@ -1,56 +1,36 @@
-import React from 'react'
-import { Menu, MenuButton, MenuList, MenuItem, Button, Flex, Box, Spacer} from '@chakra-ui/react'
-import { ChevronDownIcon } from '@chakra-ui/icons'
-import CartWidget from './CartWidget'
-import brand from '../assets/viaje-y-turismo.png'
-import { Link } from 'react-router-dom'
+import CartWidget from "./CartWidget"
+import { Menu, MenuButton, MenuList, MenuItem, Button } from "@chakra-ui/react"
+import { Link } from "react-router-dom"
+import picture from "../assets/viaje-y-turismo.png"
 
-
-const Navbar = () => {
+const NavBar = () => {
   return (
-    <Flex>
-      <Box p='4' bg='red.400'className='box'>
-        <Link to={"/"}>
-      <img src={brand} alt="" width='50px' height='50px'/>
-      </Link>
-      TURISMO ARGENTINO
-      </Box>
-  <Spacer />
-  <Menu>
-   <MenuButton as={Button} rightIcon={<ChevronDownIcon />}>
-    Paquetes
-   </MenuButton>
-   <MenuList>
-    <MenuItem>
-    <Link to= {`/category/${'cat1'}`}>
-    Patagonia
-    </Link>
-    </MenuItem>
-    <MenuItem>
-    <Link to= {`/category/${'cat2'}`}> 
-    Costa Argentina
-    </Link>
-    </MenuItem>
-    <MenuItem>
-    <Link to= {`/category/${'cat3'}`}>
-    Norte Argentino
-    </Link>
-    </MenuItem>
-    <MenuItem>
-    <Link to= {`/category/${'cat4'}`}>
-    Buenos Aires
-    </Link>
-    </MenuItem>
-   </MenuList>
-</Menu>
-<Spacer />
-<Box p='4' bg='green.400'className='box'>
-<Link to={"/Cart"}>
-<CartWidget/>
-    </Link>
-</Box>
-    </Flex>
-  )
-}
+    <div className="navBarClass">
+      <div className="pic">
+        <Link to={"./"}>
+          <img src={picture} alt="" className="picture" />
+        </Link>
+      </div>
 
-export default Navbar
+      <div className="cat">
+        <Menu>
+          <MenuButton as={Button}>
+          Paquetes
+          </MenuButton>
+          <MenuList border="2px" borderColor="green">
+            <Link to="/catalogue">
+              <MenuItem>Todos los paquetes</MenuItem>
+            </Link>
+          </MenuList>
+        </Menu>
+      </div>
+      <div className="buttonCart">
+        <Link to={"/cart"}>
+          <CartWidget />
+        </Link>
+      </div>
+    </div>
+  );
+};
+
+export default NavBar
